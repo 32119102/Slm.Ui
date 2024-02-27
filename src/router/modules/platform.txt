@@ -1,0 +1,27 @@
+// export default {
+//   path: "/platform",
+//   redirect: "/platform/menu",
+//   meta: {
+//     icon: "homeFilled",
+//     title: "平台管理",
+//     rank: 1
+//   },
+//   children: [
+//     {
+//       path: "/platform/menu",
+//       name: "sysMenu",
+//       component: () => import("@/views/platform/menu/index.vue"),
+//       meta: {
+//         title: "菜单管理"
+//       }
+//     },
+//     {
+//       path: "/platform/per",
+//       name: "per",
+//       component: () => import("@/views/platform/per/index.vue"),
+//       meta: {
+//         title: "哈哈"
+//       }
+//     }
+//   ]
+// } as RouteConfigsTable;
