@@ -1,0 +1,32 @@
+.main {
+  .search-form {
+    background-color: var(--el-bg-color);
+    padding-left: 2rem; /*32px */
+    padding-top: 12px;
+    :deep(.el-form-item) {
+      margin-bottom: 12px;
+    }
+
+    .el-input {
+      --el-input-width: 180px;
+    }
+
+    .el-select {
+      --el-select-width: 180px;
+    }
+  }
+
+  .card-search-form {
+    :deep(.el-form-item) {
+      margin-bottom: 12px;
+    }
+
+    .el-input {
+      --el-input-width: 180px;
+    }
+
+    .el-select {
+      --el-select-width: 180px;
+    }
+  }
+}
