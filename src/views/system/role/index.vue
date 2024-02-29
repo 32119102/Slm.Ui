@@ -25,7 +25,10 @@ const {
   handleDelete,
   handleSizeChange,
   handleCurrentChange,
-  handleDataScope
+  handleDataScope,
+  handleDeleteDr,
+  handleGrantMenu,
+  handleGrantApi
 } = useRole();
 </script>
 
@@ -172,9 +175,9 @@ const {
           <template #operation="{ row }">
             <el-button
               class="reset-margin"
-              link
               type="primary"
               :size="size"
+              link
               :icon="useRenderIcon(EditPen)"
               @click="openDialog('修改', row.id)"
               >修改</el-button
@@ -186,35 +189,47 @@ const {
               <template #reference>
                 <el-button
                   class="reset-margin"
-                  link
                   type="danger"
+                  link
                   :size="size"
                   :icon="useRenderIcon(Delete)"
                   >删除</el-button
                 >
               </template>
             </el-popconfirm>
-            <el-dropdown>
+            <el-dropdown class="ml-3">
               <el-button
-                class="ml-3 mt-[2px]"
-                link
                 type="primary"
                 :size="size"
+                link
                 :icon="useRenderIcon(More)"
               />
+              <!-- <span class="el-dropdown-link"> </span> -->
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item>
-                    <el-button
-                      class="reset-margin"
-                      link
-                      type="primary"
-                      :size="size"
-                      :icon="useRenderIcon(Role)"
-                      @click="handleDataScope(row.id, row.dataScope)"
-                    >
-                      数据范围
-                    </el-button>
+                  <el-dropdown-item
+                    :icon="useRenderIcon(Role)"
+                    @click="handleGrantMenu(row.id)"
+                  >
+                    授权菜单
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    :icon="useRenderIcon(Role)"
+                    @click="handleGrantApi(row.id)"
+                  >
+                    授权接口
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    :icon="useRenderIcon(Role)"
+                    @click="handleDataScope(row.id, row.dataScope)"
+                  >
+                    数据范围
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    :icon="useRenderIcon(Delete)"
+                    @click="handleDeleteDr(row)"
+                  >
+                    删除
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
@@ -227,13 +242,10 @@ const {
 </template>
 
 <style scoped lang="scss">
-:deep(.el-dropdown-menu__item i) {
-  margin: 0;
-}
-
-.search-form {
-  :deep(.el-form-item) {
-    margin-bottom: 12px;
-  }
+.example-showcase .el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
 }
 </style>
