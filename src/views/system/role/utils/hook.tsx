@@ -3,6 +3,8 @@ import { PaginationProps } from "@pureadmin/table";
 import { h, onMounted, reactive, ref, toRaw } from "vue";
 import editForm from "../form/index.vue";
 import dataScopeForm from "../form/dataScope.vue";
+import grantMenuForm from "../form/grantMenu.vue";
+import grantApiForm from "../form/grantApi.vue";
 import { message } from "@/utils/message";
 import { roleAdd, roleDel, rolePage, roleUpdate } from "@/api/platform/role";
 import { ElMessageBox } from "element-plus";
@@ -60,7 +62,7 @@ export function useRole() {
     {
       label: "操作",
       fixed: "right",
-      width: 210,
+      width: 300,
       slot: "operation"
     }
   ];
@@ -122,6 +124,25 @@ export function useRole() {
     await onSearch();
 
   }
+
+  async function handleDeleteDr(row) {
+    ElMessageBox.confirm(`确定删除角色：【${row.name}】?`, '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    })
+      .then(async () => {
+        const result = await roleDel(row.id);
+        if (!result) {
+          message(`删除失败`, { type: "warning" });
+          return;
+        }
+        message(`删除成功`, { type: "success" });
+        await onSearch();
+      })
+      .catch(() => { });
+  }
+
   const dataScopeRef = ref();
 
 
@@ -138,7 +159,7 @@ export function useRole() {
           dataScope: dataScope
         }
       },
-      title: '编辑数据范围',
+      title: '数据范围',
       width: "20%",
       draggable: true,
       fullscreenIcon: true,
@@ -165,6 +186,72 @@ export function useRole() {
     });
   }
 
+
+  /**
+   * 数据权限分配
+   * @param id 角色id
+   */
+  const grantMenuRef = ref();
+  async function handleGrantMenu(id: string) {
+    console.log('数据权限分配');
+
+    addDialog({
+      props: {
+        formInline: {
+          id: id
+        }
+      },
+      title: '授权菜单',
+      width: "30%",
+      draggable: true,
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      contentRenderer: () => h(grantMenuForm, { ref: grantMenuRef }),
+      beforeSure: (done, { options }) => {
+
+
+        // const curData = options.props.formInline;
+        // if (curData.dataScope == 5) {
+        //   const keys = dataScopeRef.value.getCheckedKeys();
+        //   console.log("keys", keys);
+        // }
+        // console.log("curIds", curData);
+        // // 根据实际业务使用curData.ids和row里的某些字段去调用修改角色接口即可
+        // function chores() {
+        //   message(`更新成功`, {
+        //     type: "success"
+        //   });
+        //   done(); // 关闭弹框
+        //   onSearch(); // 刷新表格数据
+        // }
+      }
+    });
+  }
+
+  /**
+   * 数据权限分配
+   * @param id 角色id
+   */
+  const grantApiRef = ref();
+  async function handleGrantApi(id: string) {
+
+    addDialog({
+      props: {
+        formInline: {
+          id: id
+        }
+      },
+      title: '授权接口',
+      width: "30%",
+      draggable: true,
+      fullscreenIcon: true,
+      closeOnClickModal: false,
+      contentRenderer: () => h(grantApiForm, { ref: grantApiRef }),
+      beforeSure: (done, { options }) => {
+
+      }
+    });
+  }
 
 
 
@@ -217,6 +304,9 @@ export function useRole() {
     handleDelete,
     handleSizeChange,
     handleCurrentChange,
-    handleDataScope
+    handleDataScope,
+    handleDeleteDr,
+    handleGrantMenu,
+    handleGrantApi
   };
 }
