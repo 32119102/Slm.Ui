@@ -6,7 +6,7 @@ import dataScopeForm from "../form/dataScope.vue";
 import grantMenuForm from "../form/grantMenu.vue";
 import grantApiForm from "../form/grantApi.vue";
 import { message } from "@/utils/message";
-import { roleAdd, roleDel, rolePage, roleUpdate } from "@/api/platform/role";
+import { roleAdd, roleDel, roleGrantDataScope, roleGrantRoleApi, rolePage, roleUpdate } from "@/api/platform/role";
 import { ElMessageBox } from "element-plus";
 import { constantRoutes } from '../../../../router/index';
 import type { DataScopeProps } from "./types";
@@ -77,7 +77,7 @@ export function useRole() {
         }
       },
       title: title,
-      width: "60%",
+      width: "40%",
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
@@ -87,6 +87,7 @@ export function useRole() {
         const FormRef = formRef.value.getRef();
 
         const curData = formRef.value.getModelData();
+
         function chores() {
           message(`更新成功`, {
             type: "success"
@@ -150,13 +151,13 @@ export function useRole() {
    * 数据权限分配
    * @param id 角色id
    */
-  async function handleDataScope(id: string, dataScope?: number) {
+  async function handleDataScope(id: string) {
     console.log('数据权限分配');
 
     addDialog({
       props: {
         formInline: {
-          dataScope: dataScope
+          id: id
         }
       },
       title: '数据范围',
@@ -165,14 +166,10 @@ export function useRole() {
       fullscreenIcon: true,
       closeOnClickModal: false,
       contentRenderer: () => h(dataScopeForm, { ref: dataScopeRef }),
-      beforeSure: (done, { options }) => {
+      beforeSure: async (done) => {
 
+        const curData = dataScopeRef.value.getModelData();
 
-        const curData = options.props.formInline;
-        if (curData.dataScope == 5) {
-          const keys = dataScopeRef.value.getCheckedKeys();
-          console.log("keys", keys);
-        }
         console.log("curIds", curData);
         // 根据实际业务使用curData.ids和row里的某些字段去调用修改角色接口即可
         function chores() {
@@ -182,6 +179,10 @@ export function useRole() {
           done(); // 关闭弹框
           onSearch(); // 刷新表格数据
         }
+
+        const isSu = await roleGrantDataScope(id, curData);
+        chores();
+
       }
     });
   }
@@ -243,14 +244,30 @@ export function useRole() {
       },
       title: '授权接口',
       width: "30%",
+
       draggable: true,
       fullscreenIcon: true,
       closeOnClickModal: false,
       contentRenderer: () => h(grantApiForm, { ref: grantApiRef }),
-      beforeSure: (done, { options }) => {
+      beforeSure: async (done) => {
+
+        const curData = grantApiRef.value.getCheckedKeys();
+
+
+        function chores() {
+          message(`更新成功`, {
+            type: "success"
+          });
+          done(); // 关闭弹框
+          onSearch(); // 刷新表格数据
+        }
+
+
+        const isSu = await roleGrantRoleApi(id, { apiIds: curData });
+        chores();
 
       }
-    });
+    })
   }
 
 

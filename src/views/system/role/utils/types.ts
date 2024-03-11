@@ -22,6 +22,7 @@ interface FormRoleProps {
   isEnable: boolean;
 
   sort: number;
+  menuIds?: Array<string> | null;
 }
 
 interface DataScopeProps {
@@ -29,4 +30,16 @@ interface DataScopeProps {
     dataScope: number;
   };
 }
-export type { FormItemProps, FormProps, FormRoleProps, DataScopeProps };
+
+interface GrantDataScopePros {
+  dataScope: number;
+  orgIds?: Array<string> | null;
+}
+
+export type {
+  FormItemProps,
+  FormProps,
+  FormRoleProps,
+  DataScopeProps,
+  GrantDataScopePros
+};

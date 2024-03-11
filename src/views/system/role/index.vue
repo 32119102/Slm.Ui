@@ -221,7 +221,7 @@ const {
                   </el-dropdown-item>
                   <el-dropdown-item
                     :icon="useRenderIcon(Role)"
-                    @click="handleDataScope(row.id, row.dataScope)"
+                    @click="handleDataScope(row.id)"
                   >
                     数据范围
                   </el-dropdown-item>
