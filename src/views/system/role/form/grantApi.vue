@@ -6,6 +6,7 @@ import type { FormProps } from "#/formModel";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import Menu from "@iconify-icons/ep/menu";
 import { apiTreeTable } from "@/api/platform/api";
+import { roleGetGrantRoleApi } from "@/api/platform/role";
 
 const props = withDefaults(defineProps<FormProps>(), {
   formInline: () => ({
@@ -32,6 +33,8 @@ const menuData = ref([]);
 
 onMounted(async () => {
   menuData.value = await apiTreeTable({});
+  const apis = await roleGetGrantRoleApi(newFormInline.value.id);
+  treeRef?.value.setCheckedKeys(apis);
 });
 
 const treeRef = ref();
@@ -50,7 +53,7 @@ defineExpose({ getCheckedKeys });
             class="w-full"
             ref="treeRef"
             :data="menuData"
-            node-key="key"
+            node-key="id"
             show-checkbox
             :props="{
               class: treeNodeClass

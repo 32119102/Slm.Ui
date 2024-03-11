@@ -64,8 +64,13 @@ const nodeClick = (node: any) => {
 const getCheckedKeys = () => {
   return treeRef.value!.getCheckedKeys();
 };
+
+const setCheckedKeys = (orgData: []) => {
+  treeRef.value!.setCheckedKeys(orgData);
+};
+
 // 导出对象
-defineExpose({ getCheckedKeys });
+defineExpose({ getCheckedKeys, setCheckedKeys });
 </script>
 
 <template>
