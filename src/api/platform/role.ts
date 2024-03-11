@@ -1,3 +1,4 @@
+import { FormSelectOption } from "#/formModel";
 import { http } from "@/utils/http";
 import { sysHttp } from "@/utils/http/axios";
 import { FormRoleProps } from "@/views/system/role/utils/types";
@@ -22,4 +23,8 @@ export const roleDel = (id: string) => {
 
 export const roleUpdate = (id: string, data: FormRoleProps) => {
   return sysHttp.put<boolean>({ url: `/Role/Update/${id}`, data });
+};
+
+export const roleSelect = () => {
+  return sysHttp.get<FormSelectOption[]>({ url: `/Role/GetSelect` });
 };

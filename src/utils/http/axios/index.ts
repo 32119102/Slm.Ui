@@ -35,6 +35,7 @@ const transform: AxiosTransform = {
     res: AxiosResponse<Result>,
     options: RequestOptions
   ) => {
+    console.log(res, options, 7878);
     const { t } = transformI18n();
     const { isTransformResponse, isReturnNativeResponse } = options;
     // 是否返回原生响应头 比如：需要获取响应头时使用该属性
@@ -59,6 +60,7 @@ const transform: AxiosTransform = {
     // 这里逻辑可以根据项目进行修改
     const hasSuccess =
       data && Reflect.has(data, "code") && code === ResultEnum.SUCCESS;
+    console.log(hasSuccess, 111);
     if (hasSuccess) {
       let successMsg = message;
 
@@ -100,8 +102,8 @@ const transform: AxiosTransform = {
     } else if (options.errorMessageMode === "message") {
       // createMessage.error(timeoutMsg);
     }
-
-    throw new Error(timeoutMsg || t("sys.api.apiRequestFailed"));
+    console.log(timeoutMsg, 999);
+    throw new Error(timeoutMsg);
   },
 
   // 请求之前处理config
@@ -197,6 +199,8 @@ const transform: AxiosTransform = {
    */
   responseInterceptorsCatch: (axiosInstance: AxiosInstance, error: any) => {
     const { t } = transformI18n();
+
+    console.log(error, 9999111);
     // const errorLogStore = useErrorLogStoreWithOut();
     // errorLogStore.addAjaxErrorInfo(error);
     const { response, code, message, config } = error || {};
@@ -211,10 +215,10 @@ const transform: AxiosTransform = {
 
     try {
       if (code === "ECONNABORTED" && message.indexOf("timeout") !== -1) {
-        errMessage = t("sys.api.apiTimeoutMessage");
+        errMessage = "sys.api.apiTimeoutMessage";
       }
       if (err?.includes("Network Error")) {
-        errMessage = t("sys.api.networkExceptionMsg");
+        errMessage = "sys.api.networkExceptionMsg";
       }
 
       if (errMessage) {

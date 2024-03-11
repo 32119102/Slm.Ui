@@ -65,8 +65,9 @@ defineExpose({ getRef, getModelData });
       </re-col>
 
       <re-col :value="24" :xs="24" :sm="24">
-        <el-form-item label="机构名称" prop="name">
-          <el-input v-model="modelData.name" clearable />
+        <!-- label="机构名称"  -->
+        <el-form-item prop="name">
+          <el-input v-model="modelData.name" clearable placeholder="机构名称" />
         </el-form-item>
       </re-col>
       <re-col :value="12" :xs="24" :sm="24">

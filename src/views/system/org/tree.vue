@@ -2,7 +2,7 @@
 import { FormCascaderOption } from "#/formModel";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import moreFilled from "@iconify-icons/ep/more-filled";
-import { ref } from "vue";
+import { ref, watch, watchEffect } from "vue";
 import type { ElTree } from "element-plus";
 
 // const defaultProps = {
@@ -22,6 +22,13 @@ const props = defineProps({
 //   treeData: [],
 //   checkedKeys: [16179761868229]
 // });
+
+watch(
+  () => props.treeLoading,
+  newValue => {
+    console.log(newValue, 9888);
+  }
+);
 
 const treeRef = ref<InstanceType<typeof ElTree>>();
 
